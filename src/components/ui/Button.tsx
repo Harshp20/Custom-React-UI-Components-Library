@@ -19,6 +19,7 @@ type ButtonProps = AriaButtonProps &
 export const Button = ({
   className,
   variant,
+  size,
   loading,
   children,
   ref: forwardedRef,
@@ -36,7 +37,7 @@ export const Button = ({
   return (
     <button
       ref={mergeRefs(ref, forwardedRef)}
-      className={cn(buttonVariants({ variant }), className)}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...mergeProps(buttonProps, hoverProps, focusProps)}
       data-hovered={isHovered || undefined}
       data-pressed={isPressed || undefined}
@@ -51,6 +52,7 @@ export const Button = ({
 };
 
 const buttonVariants = cva(
+  // Default styles
   [
     "relative",
     "inline-flex",
@@ -58,12 +60,10 @@ const buttonVariants = cva(
     "gap-2",
     "text-white",
     "tracking-wide",
-    "px-4",
-    "py-2",
     "rounded",
     "cursor-pointer",
     "items-center",
-    "font-semibold",
+    "font-medium",
     "outline-none",
     "data-[hovered]:opacity-95",
     "data-[hovered]:scale-98",
@@ -75,15 +75,22 @@ const buttonVariants = cva(
     "shadow-md",
     "transition",
   ],
+  // Variant specific styles
   {
     variants: {
       variant: {
         primary: ["bg-blue-800", "ring-blue-800/50"],
         secondary: ["bg-green-800", "ring-green-800/50"],
       },
+      size: {
+        small: ["text-sm", "px-2", "py-1"],
+        default: ["px-4", "py-2"],
+        large: ["text-lg", "px-4", "py-2"],
+      },
     },
     defaultVariants: {
       variant: "primary",
+      size: "default",
     },
   },
 );

@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# Custom UI Components
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React playground for building accessible, styled UI primitives from scratch. Components are built with **React Aria** for behavior, **Tailwind CSS** for styling, and **class-variance-authority** for variants.
 
-Currently, two official plugins are available:
+More components are on the way — this repo will grow over time.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Components
 
-## React Compiler
+### Button
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Accessible button with variants, sizes, and an optional loading state.
 
-## Expanding the ESLint configuration
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"primary"` \| `"secondary"` | `"primary"` | Visual style |
+| `size` | `"small"` \| `"default"` \| `"large"` | `"default"` | Padding and text size |
+| `loading` | `boolean` | — | Shows a spinner and disables interaction |
+| `disabled` | `boolean` | — | Disables the button |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Built with `useButton`, `useHover`, and `useFocusRing` from React Aria. Hover, press, and focus-visible states are exposed via `data-*` attributes for Tailwind styling.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```tsx
+import { Button } from "./components/ui/Button";
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+<Button variant="secondary" size="large" loading={isSubmitting}>
+  Save
+</Button>
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- [React](https://react.dev/) 19 + [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/) — dev server and build
+- [Tailwind CSS](https://tailwindcss.com/) v4
+- [React Aria](https://react-spectrum.adobe.com/react-aria/) — accessibility and interaction hooks
+- [class-variance-authority](https://cva.style/docs) — variant APIs
+- [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) — `cn()` utility for class names
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting started
+
+**Prerequisites:** Node.js 18+
+
+```bash
+npm install
+npm run dev
 ```
+
+Open the URL shown in the terminal (usually `http://localhost:5173`) to preview components.
+
+### Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Type-check and production build |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | Run ESLint |
+
+## Project structure
+
+```
+src/
+├── components/ui/   # UI primitives (Button, more coming soon)
+├── utils/cn.ts      # Tailwind-friendly class name helper
+├── App.tsx          # Component demos / playground
+└── main.tsx
+```
+
+## Roadmap
+
+- [ ] More custom UI components (inputs, dialogs, etc.)
+- [ ] Consistent patterns across primitives (variants, a11y, styling)
+
+Contributions and ideas are welcome as the library expands.
